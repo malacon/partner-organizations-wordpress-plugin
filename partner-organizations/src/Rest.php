@@ -61,9 +61,10 @@ final class Rest implements Hookable
 
     public function partners(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
-        $client_id = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-        if (! $this->rate_limiter->is_allowed($client_id)) {
-            return new \WP_Error('partner_organizations_rate_limited', __('Rate limit exceeded.', 'partner-organizations'), ['status' => 429]);
+        if (! $this->rate_limiter->is_allowed($this->rate_limiter->client_id())) {
+            return new \WP_Error('partner_organizations_rate_limited', __('Rate limit exceeded.', 'partner-organizations'), [
+                'status' => 429,
+            ]);
         }
 
         $page = $this->positive_int_from_request($request, 'page', 1);

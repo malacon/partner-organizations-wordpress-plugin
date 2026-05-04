@@ -16,6 +16,10 @@ final class Cache implements Hookable
         add_action('save_post_' . PostType::SLUG, [$this, 'flush']);
         add_action('deleted_post', [$this, 'flush']);
         add_action('set_object_terms', [$this, 'flush']);
+        add_action('delete_object_term_relationships', [$this, 'flush']);
+        add_action('created_' . Taxonomy::SLUG, [$this, 'flush']);
+        add_action('edited_' . Taxonomy::SLUG, [$this, 'flush']);
+        add_action('delete_' . Taxonomy::SLUG, [$this, 'flush']);
     }
 
     public function get(string $key): mixed

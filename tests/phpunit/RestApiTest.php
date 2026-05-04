@@ -126,6 +126,70 @@ final class RestApiTest extends WP_UnitTestCase
         }
     }
 
+    public function test_partners_endpoint_uses_transient_cache_until_partner_organization_changes(): void
+    {
+        global $wpdb;
+
+        $post_id = $this->create_partner_organization('Cached Partner Organization', 'publish');
+
+        $first_response = rest_get_server()->dispatch(new WP_REST_Request('GET', '/partner-organizations/v1/partners'));
+        $this->assertSame('Cached Partner Organization', $first_response->get_data()['data'][0]['name']);
+
+        $wpdb->update($wpdb->posts, ['post_title' => 'Database Only Change'], ['ID' => $post_id]);
+        clean_post_cache($post_id);
+
+        $cached_response = rest_get_server()->dispatch(new WP_REST_Request('GET', '/partner-organizations/v1/partners'));
+        $this->assertSame('Cached Partner Organization', $cached_response->get_data()['data'][0]['name']);
+
+        wp_update_post([
+            'ID' => $post_id,
+            'post_title' => 'Invalidated Partner Organization',
+        ]);
+
+        $invalidated_response = rest_get_server()->dispatch(new WP_REST_Request('GET', '/partner-organizations/v1/partners'));
+        $this->assertSame('Invalidated Partner Organization', $invalidated_response->get_data()['data'][0]['name']);
+    }
+
+    public function test_partners_endpoint_invalidates_cache_when_partner_category_changes(): void
+    {
+        $category = self::factory()->term->create_and_get([
+            'taxonomy' => PartnerOrganizations\Taxonomy::SLUG,
+            'name' => 'Before Rename',
+            'slug' => 'before-rename',
+        ]);
+        $post_id = $this->create_partner_organization('Categorized Partner Organization', 'publish');
+        wp_set_object_terms($post_id, [$category->term_id], PartnerOrganizations\Taxonomy::SLUG);
+
+        $request = new WP_REST_Request('GET', '/partner-organizations/v1/partners');
+        $request->set_query_params(['category' => 'before-rename']);
+        $first_response = rest_get_server()->dispatch($request);
+        $this->assertSame('Before Rename', $first_response->get_data()['data'][0]['category']['name']);
+
+        wp_update_term($category->term_id, PartnerOrganizations\Taxonomy::SLUG, ['name' => 'After Rename']);
+
+        $second_request = new WP_REST_Request('GET', '/partner-organizations/v1/partners');
+        $second_request->set_query_params(['category' => 'before-rename']);
+        $second_response = rest_get_server()->dispatch($second_request);
+        $this->assertSame('After Rename', $second_response->get_data()['data'][0]['category']['name']);
+    }
+
+    public function test_partners_endpoint_rate_limits_before_cache_lookup(): void
+    {
+        $_SERVER['REMOTE_ADDR'] = '198.51.100.5';
+        $this->create_partner_organization('Rate Limited Partner Organization', 'publish');
+        $policy = static fn (): array => ['limit' => 1, 'window' => 300];
+        add_filter('partner_organizations_rate_limit_policy', $policy);
+
+        $first_response = rest_get_server()->dispatch(new WP_REST_Request('GET', '/partner-organizations/v1/partners'));
+        $second_response = rest_get_server()->dispatch(new WP_REST_Request('GET', '/partner-organizations/v1/partners'));
+
+        remove_filter('partner_organizations_rate_limit_policy', $policy);
+
+        $this->assertSame(200, $first_response->get_status());
+        $this->assertSame(429, $second_response->get_status());
+        $this->assertSame('partner_organizations_rate_limited', $second_response->get_data()['code']);
+    }
+
     private function create_partner_organization(string $title, string $status): int
     {
         return self::factory()->post->create([

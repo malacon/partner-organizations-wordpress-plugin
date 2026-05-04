@@ -25,5 +25,25 @@ expect(rest.includes("'posts_per_page' => $per_page"), 'Endpoint must pass per_p
 expect(rest.includes('min(100,'), 'Endpoint must cap per_page at 100.');
 expect(rest.includes("['status' => 400]"), 'Invalid pagination must return HTTP 400.');
 expect(rest.includes('empty_envelope'), 'Unknown category slugs must return an empty successful envelope.');
+expect(rest.includes('is_allowed($this->rate_limiter->client_id())'), 'Rate limiting must run before REST cache lookup using the shared client identity.');
+expect(rest.includes("'status' => 429"), 'Exceeded REST rate limits must return HTTP 429.');
+
+const rateLimiter = readFileSync(join(srcDir, 'RateLimiter.php'), 'utf8');
+expect(rateLimiter.includes('private const DEFAULT_LIMIT = 60;'), 'Default REST rate limit must allow 60 requests.');
+expect(rateLimiter.includes('private const DEFAULT_WINDOW = 300;'), 'Default REST rate limit window must be 5 minutes.');
+expect(rateLimiter.includes('get_current_user_id()'), 'Rate limiter must identify logged-in clients by WordPress user ID.');
+expect(rateLimiter.includes("$_SERVER['REMOTE_ADDR']"), 'Rate limiter must identify anonymous clients by IP address.');
+expect(rateLimiter.includes("apply_filters('partner_organizations_rate_limit_policy'"), 'Rate limit policy must be filterable.');
+
+const cache = readFileSync(join(srcDir, 'Cache.php'), 'utf8');
+for (const hook of [
+  "'save_post_' . PostType::SLUG",
+  "'set_object_terms'",
+  "'created_' . Taxonomy::SLUG",
+  "'edited_' . Taxonomy::SLUG",
+  "'delete_' . Taxonomy::SLUG",
+]) {
+  expect(cache.includes(hook), `Cache must flush on ${hook}.`);
+}
 
 console.log('Partner Organizations REST API checks passed.');
