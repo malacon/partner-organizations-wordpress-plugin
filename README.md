@@ -171,13 +171,18 @@ Future improvements:
 
 ## Production deployment notes
 
-- Package and deploy the `partner-organizations/` plugin directory to `wp-content/plugins/partner-organizations` in the target WordPress installation.
-- Activate the plugin through WP Admin or WP-CLI, then confirm default Partner Categories exist and permalinks are healthy.
-- Ensure the site supports featured images and that uploads are correctly served over HTTPS for logo assets.
-- Place the public REST API behind normal production controls: HTTPS, page/REST caching where appropriate, observability, CDN/WAF rate limiting, and trusted proxy/IP handling.
-- Keep WordPress core, PHP, themes, and plugins patched; test plugin updates in staging with the Dockerized test runner or equivalent CI.
-- Review backups and rollback steps before deploying content model changes to production.
-- Do not deploy development-only files such as `node_modules/`, `.sandcastle/`, local database volumes, or unneeded test artifacts.
+See the detailed [Production Deployment Guide](docs/deployment.md) for packaging, WP Engine-style staging-to-production workflow, rollback, flushing, monitoring, and smoke-test steps.
+
+Summary:
+
+- Package and deploy the `partner-organizations/` plugin directory to `wp-content/plugins/partner-organizations` in the target WordPress installation; do not deploy development-only files such as `node_modules/`, `.sandcastle/`, local database volumes, or unneeded test artifacts.
+- Promote code through staging first, then production, using the same reviewed package and host-compatible workflows such as Git deploy, SFTP, dashboard upload, or CI release automation.
+- Keep code deployment separate from database/content migration. Do not blindly push a staging database over production Partner Organizations, Partner Categories, pages, users, settings, or other live content.
+- Plan media/uploads separately for featured-image logo assets and verify they are served correctly over HTTPS and the production CDN.
+- Activate the plugin through WP Admin or WP-CLI, confirm default Partner Categories and admin access, flush permalinks/rewrite rules, clear plugin transients and host/CDN caches, then review logs.
+- Place the public REST API behind normal production controls: HTTPS, page/REST caching where appropriate, observability, CDN/WAF rate limiting, trusted proxy/IP handling, and tested backups.
+- Run post-deployment smoke tests for Partner Organizations admin management, `[partner_directory]` shortcode rendering, Partner Directory Gutenberg block rendering, and `/wp-json/partner-organizations/v1/partners` REST API behavior.
+- Keep the previous known-good plugin package ready and use the rollback plan before restoring database/uploads for a code-only problem.
 
 ## AI Usage Notes
 

@@ -5,6 +5,7 @@ function expectIncludes(haystack, needle, message) {
 }
 
 const readme = readFileSync('README.md', 'utf8');
+const deploymentGuide = readFileSync('docs/deployment.md', 'utf8');
 
 for (const heading of [
   '## Clean-clone local setup',
@@ -47,5 +48,32 @@ for (const detail of [
 ]) {
   expectIncludes(readme, detail, `README must document: ${detail}`);
 }
+
+for (const detail of [
+  '# Production Deployment Guide',
+  'WP Engine',
+  'partner-organizations/` plugin directory',
+  'zip -r partner-organizations.zip partner-organizations',
+  'Do not push a staging database over production content',
+  'Partner Organizations, Partner Categories',
+  'featured-image logo media',
+  'Activate the plugin',
+  'flush rewrite rules',
+  'delete plugin transients',
+  'Rollback plan',
+  '[partner_directory]',
+  'Partner Directory Gutenberg block',
+  '/wp-json/partner-organizations/v1/partners',
+  'CDN/WAF',
+  'backups',
+]) {
+  expectIncludes(deploymentGuide, detail, `Deployment guide must document: ${detail}`);
+}
+
+expectIncludes(
+  readme,
+  'See the detailed [Production Deployment Guide](docs/deployment.md)',
+  'README must link to the detailed production deployment guide.',
+);
 
 console.log('README documentation checks passed.');
