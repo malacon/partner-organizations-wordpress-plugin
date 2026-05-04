@@ -24,6 +24,7 @@ expect(!rest.includes("'sanitize_callback' => 'sanitize_title'"), 'REST category
 expect(rest.includes("'sanitize_callback' => [$this, 'sanitize_category_param']"), 'REST category must use a callback that tolerates missing/non-scalar values.');
 expect(rest.includes('function sanitize_category_param'), 'REST category sanitizer must be defined.');
 expect(rest.includes('! is_scalar($value)'), 'REST category sanitizer must handle missing/non-scalar values safely.');
+expect(rest.includes("'category' => $category"), 'REST meta must include the active category filter.');
 expect(rest.includes("'paged' => $page"), 'Endpoint must pass page to WP_Query.');
 expect(rest.includes("'posts_per_page' => $per_page"), 'Endpoint must pass per_page to WP_Query.');
 expect(rest.includes('min(100,'), 'Endpoint must cap per_page at 100.');

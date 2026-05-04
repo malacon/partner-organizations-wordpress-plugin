@@ -37,7 +37,7 @@ final class AdminColumns implements Hookable
             $thumbnail = get_the_post_thumbnail($post_id, [60, 60], [
                 'alt' => esc_attr(get_the_title($post_id)),
             ]);
-            echo '' !== $thumbnail ? $thumbnail : '&mdash;';
+            echo '' !== $thumbnail ? wp_kses_post($thumbnail) : '&mdash;';
             return;
         }
 

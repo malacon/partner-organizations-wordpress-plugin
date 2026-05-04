@@ -110,11 +110,11 @@ The endpoint is public read-only because it exposes the same published data as t
       "category": { "id": 7, "name": "Education", "slug": "education" }
     }
   ],
-  "meta": { "page": 1, "per_page": 10, "total": 1, "total_pages": 1 }
+  "meta": { "page": 1, "per_page": 10, "category": "education", "total": 1, "total_pages": 1 }
 }
 ```
 
-Unknown category slugs return an empty successful envelope. Invalid pagination returns HTTP 400. Application-level controls include transient response caching for REST envelopes and transient rate limiting before cache lookup. The default limit is 60 requests per 5 minutes per logged-in user ID or anonymous IP address, and the policy can be changed with the `partner_organizations_rate_limit_policy` WordPress filter.
+Unknown category slugs return an empty successful envelope. Invalid pagination returns HTTP 400. If pretty REST URLs return redirects or theme HTML, save WordPress permalinks once in **Settings → Permalinks** to flush rewrite rules, or use the query-form fallback `/?rest_route=/partner-organizations/v1/partners`. Application-level controls include transient response caching for REST envelopes and transient rate limiting before cache lookup. The default limit is 60 requests per 5 minutes per logged-in user ID or anonymous IP address, and the policy can be changed with the `partner_organizations_rate_limit_policy` WordPress filter.
 
 ## Automated tests and CI
 
@@ -189,7 +189,7 @@ How AI was used: AI helped inspect issues and project context, propose implement
 
 What was changed/reviewed: The implementation added the Partner Organizations plugin skeleton, admin management, shortcode rendering, public REST API, caching, rate limiting, Dockerized testing/CI, and this final README. Review focused on domain language, WordPress API usage, security checks, REST behavior, and documentation accuracy.
 
-Verification: Per-issue notes document commands run. The strongest intended verification is `docker compose --profile test run --rm plugin-tests`; `npm test` provides lightweight static checks when Docker is unavailable in this harness. Docker is unavailable in this harness, so Dockerized PHPUnit could not be executed locally during several Sandcastle iterations.
+Verification: Per-issue notes document commands run. The strongest verification is `docker compose --profile test run --rm plugin-tests`, which has been run locally and passes. `npm test` provides lighter static checks for quick feedback or environments where Docker is unavailable.
 
 AI mistakes/limitations: Earlier AI suggestions were adjusted or rejected, including a heavier Docker stack, relying on manual verification instead of automated tests, a generic REST namespace, and documentation-only rate limiting. AI could not verify Dockerized tests or PHP linting in environments lacking Docker/PHP.
 

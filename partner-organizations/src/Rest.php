@@ -105,7 +105,7 @@ final class Rest implements Hookable
         if ('' !== $category) {
             $term = get_term_by('slug', $category, Taxonomy::SLUG);
             if (! $term instanceof \WP_Term) {
-                return $this->empty_envelope($page, $per_page);
+                return $this->empty_envelope($page, $per_page, $category);
             }
         }
 
@@ -131,6 +131,7 @@ final class Rest implements Hookable
             'meta' => [
                 'page' => $page,
                 'per_page' => $per_page,
+                'category' => $category,
                 'total' => (int) $query->found_posts,
                 'total_pages' => (int) $query->max_num_pages,
             ],
@@ -185,13 +186,14 @@ final class Rest implements Hookable
         ];
     }
 
-    private function empty_envelope(int $page, int $per_page): array
+    private function empty_envelope(int $page, int $per_page, string $category = ''): array
     {
         return [
             'data' => [],
             'meta' => [
                 'page' => $page,
                 'per_page' => $per_page,
+                'category' => $category,
                 'total' => 0,
                 'total_pages' => 0,
             ],

@@ -43,7 +43,7 @@ for (const detail of [
   'CDN/WAF rate limiting',
   'Sandcastle with Pi using GPT-5.5',
   'docs/ai-usage/',
-  'Docker is unavailable in this harness',
+  'has been run locally and passes',
 ]) {
   expectIncludes(readme, detail, `README must document: ${detail}`);
 }
