@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/phpunit/bootstrap.php"
+    colors="true"
+    failOnRisky="true"
+    failOnWarning="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="Partner Organizations Plugin Tests">
+            <directory>tests/phpunit</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

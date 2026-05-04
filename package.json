@@ -11,7 +11,7 @@
     "ralph": "npx tsx .sandcastle/main.mts",
     "sandcastle:build-image": "sandcastle docker build-image --image-name sandcastle:partner-organizations",
     "sandcastle:remove-image": "sandcastle docker remove-image --image-name sandcastle:partner-organizations",
-    "test": "node tests/bootstrap-skeleton.mjs && node tests/admin-management.mjs"
+    "test": "node tests/bootstrap-skeleton.mjs && node tests/admin-management.mjs && node tests/docker-test-runner.mjs"
   },
   "repository": {
     "type": "git",

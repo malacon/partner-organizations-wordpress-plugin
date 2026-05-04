@@ -1,0 +1,8 @@
+.git
+.sandcastle/worktrees
+.sandcastle/logs
+node_modules
+vendor
+partner-organizations/vendor
+*.log
+.DS_Store
