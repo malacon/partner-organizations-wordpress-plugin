@@ -20,6 +20,22 @@ The plugin directory is mounted from:
 ./partner-organizations
 ```
 
+## Public REST API
+
+Published Partner Organizations are available from:
+
+```text
+GET /wp-json/partner-organizations/v1/partners
+```
+
+Optional query parameters:
+
+- `category`: Partner Category slug.
+- `page`: positive integer, defaults to `1`.
+- `per_page`: positive integer, defaults to `20`, capped at `100`.
+
+Responses use a stable envelope with `data` and `meta` keys. Each item includes `id`, `name`, `website_url`, `logo`, and `category`.
+
 ## Automated Tests
 
 Run the fully Dockerized test runner from a clean clone with:
