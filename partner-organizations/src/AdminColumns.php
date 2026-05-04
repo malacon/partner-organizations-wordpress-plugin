@@ -17,12 +17,30 @@ final class AdminColumns implements Hookable
 
     public function columns(array $columns): array
     {
-        $columns['partner_organization_website'] = __('Website', 'partner-organizations');
+        $date = $columns['date'] ?? null;
+        unset($columns['date']);
+
+        $columns['partner_organization_logo'] = __('Logo', 'partner-organizations');
+        $columns['taxonomy-partner_category'] = __('Partner Category', 'partner-organizations');
+        $columns['partner_organization_website'] = __('Website URL', 'partner-organizations');
+
+        if (null !== $date) {
+            $columns['date'] = $date;
+        }
+
         return $columns;
     }
 
     public function render_column(string $column_name, int $post_id): void
     {
+        if ('partner_organization_logo' === $column_name) {
+            $thumbnail = get_the_post_thumbnail($post_id, [60, 60], [
+                'alt' => esc_attr(get_the_title($post_id)),
+            ]);
+            echo '' !== $thumbnail ? $thumbnail : '&mdash;';
+            return;
+        }
+
         if ('partner_organization_website' !== $column_name) {
             return;
         }

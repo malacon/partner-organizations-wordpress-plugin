@@ -9,7 +9,7 @@ namespace PartnerOrganizations;
 
 final class PostType implements Hookable
 {
-    public const SLUG = 'partner_org';
+    public const SLUG = 'partner';
 
     public function register(): void
     {
@@ -25,12 +25,15 @@ final class PostType implements Hookable
                 'add_new_item' => __('Add New Partner Organization', 'partner-organizations'),
                 'edit_item' => __('Edit Partner Organization', 'partner-organizations'),
             ],
-            'public' => true,
-            'has_archive' => true,
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'publicly_queryable' => false,
+            'exclude_from_search' => true,
+            'has_archive' => false,
             'menu_icon' => 'dashicons-groups',
-            'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+            'supports' => ['title', 'thumbnail'],
             'show_in_rest' => true,
-            'rewrite' => ['slug' => 'partner-organizations'],
         ]);
     }
 }
