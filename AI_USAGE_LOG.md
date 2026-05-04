@@ -143,3 +143,37 @@ Merger starting for iteration 2. Model: openai-codex/gpt-5.5. Branches:
 - Model/tool used: Sandcastle with Pi using GPT-5.5.
 - Verification run: attempted `docker compose --profile test run --rm plugin-tests` after each merge, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully after each merge. PHP CLI is also unavailable, so PHP linting could not be run locally.
 - Conflicts or corrections made: issue #2 fast-forwarded cleanly; issue #6 had a `package.json` test-script conflict resolved by preserving all checks (`bootstrap-skeleton`, `admin-management`, and `docker-test-runner`). Retained `docs/ai-usage/sandcastle-issue-2.md` and `docs/ai-usage/sandcastle-issue-6.md`.
+## 2026-05-04T03:40:41.347Z
+
+Merger completed for iteration 2.
+
+## 2026-05-04T03:40:41.348Z
+
+Sandcastle iteration 3 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T03:46:05.986Z
+
+Planner selected 2 issue(s) for iteration 3:
+- #3: Render Partner Directory shortcode with category filtering (sandcastle/issue-3-render-partner-directory-shortcode-with-category-filtering)
+- #4: Expose public Partner Organizations REST API (sandcastle/issue-4-expose-public-partner-organizations-rest-api)
+
+## 2026-05-04T03:54:05.417Z
+
+Implementer finished for #3 (sandcastle/issue-3-render-partner-directory-shortcode-with-category-filtering). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T03:54:05.417Z
+
+Implementer finished for #4 (sandcastle/issue-4-expose-public-partner-organizations-rest-api). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T03:54:05.417Z
+
+Merger starting for iteration 3. Model: openai-codex/gpt-5.5. Branches:
+- sandcastle/issue-3-render-partner-directory-shortcode-with-category-filtering
+- sandcastle/issue-4-expose-public-partner-organizations-rest-api
+
+## 2026-05-04T04:05:00Z — Merger entry
+
+- Branches merged: `sandcastle/issue-3-render-partner-directory-shortcode-with-category-filtering`, `sandcastle/issue-4-expose-public-partner-organizations-rest-api`.
+- Model/tool used: Sandcastle with Pi using GPT-5.5.
+- Verification run: attempted `docker compose --profile test run --rm plugin-tests` after each successful merge, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully after each merge.
+- Conflicts or corrections made: issue #3 fast-forwarded cleanly; issue #4 had a `package.json` test-script conflict resolved by preserving both shortcode-directory and REST API checks. Retained `docs/ai-usage/sandcastle-issue-3.md` and `docs/ai-usage/sandcastle-issue-4.md`.
