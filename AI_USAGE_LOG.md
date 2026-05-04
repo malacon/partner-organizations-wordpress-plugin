@@ -339,3 +339,32 @@ Merger completed for iteration 1.
 - Verification run: preferred `docker compose --profile test run --rm plugin-tests` attempted after each merge but Docker was unavailable (`docker: command not found`); ran `npm test` after each merge and it passed.
 - Conflicts/corrections: no merge conflicts; no code corrections required.
 
+## 2026-05-04T14:01:49.569Z
+
+Merger completed for iteration 1.
+
+## 2026-05-04T14:01:49.570Z
+
+Sandcastle iteration 2 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T14:07:19.585Z
+
+Planner selected 1 issue(s) for iteration 2:
+- #10: Document Partner Manager permissions (sandcastle/issue-10-document-partner-manager-permissions)
+
+## 2026-05-04T14:14:52.181Z
+
+Implementer finished for #10 (sandcastle/issue-10-document-partner-manager-permissions). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T14:14:52.181Z
+
+Merger starting for iteration 2. Model: openai-codex/gpt-5.5. Branches:
+- sandcastle/issue-10-document-partner-manager-permissions
+## 2026-05-04T14:20:00.000Z
+
+Merger completed for iteration 2.
+- Branches merged: sandcastle/issue-10-document-partner-manager-permissions.
+- Model/tool used: Sandcastle with Pi using GPT-5.5.
+- Verification run: preferred `docker compose --profile test run --rm plugin-tests` attempted but Docker was unavailable (`docker: command not found`); ran `npm test` and it passed.
+- Conflicts/corrections: no merge conflicts; merge fast-forwarded; no code corrections required.
+
