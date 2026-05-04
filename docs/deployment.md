@@ -2,6 +2,8 @@
 
 This guide describes how to package and deploy the Partner Organizations WordPress plugin to a production site. It targets a WP Engine-style managed WordPress workflow, but the same principles apply to similar hosts with separate development, staging, and production environments.
 
+For release execution, copy the companion [Production Deployment Checklist](production-deployment-checklist.md) into the deployment ticket.
+
 ## Scope and assumptions
 
 - Deploy plugin code from the `partner-organizations/` plugin directory to `wp-content/plugins/partner-organizations`.

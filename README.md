@@ -211,7 +211,7 @@ Future improvements:
 
 ## Production deployment notes
 
-See the detailed [Production Deployment Guide](docs/deployment.md) for packaging, WP Engine-style staging-to-production workflow, rollback, flushing, monitoring, and smoke-test steps.
+See the detailed [Production Deployment Guide](docs/deployment.md) for packaging, WP Engine-style staging-to-production workflow, rollback, flushing, monitoring, and smoke-test steps. For release execution, copy the [Production Deployment Checklist](docs/production-deployment-checklist.md) into the deployment ticket.
 
 Summary:
 

@@ -6,6 +6,7 @@ function expectIncludes(haystack, needle, message) {
 
 const readme = readFileSync('README.md', 'utf8');
 const deploymentGuide = readFileSync('docs/deployment.md', 'utf8');
+const deploymentChecklist = readFileSync('docs/production-deployment-checklist.md', 'utf8');
 
 for (const heading of [
   '## Clean-clone local setup',
@@ -89,5 +90,42 @@ expectIncludes(
   'See the detailed [Production Deployment Guide](docs/deployment.md)',
   'README must link to the detailed production deployment guide.',
 );
+
+expectIncludes(
+  readme,
+  '[Production Deployment Checklist](docs/production-deployment-checklist.md)',
+  'README must link to the production deployment checklist.',
+);
+
+expectIncludes(
+  deploymentGuide,
+  '[Production Deployment Checklist](production-deployment-checklist.md)',
+  'Deployment guide must link to the production deployment checklist.',
+);
+
+for (const detail of [
+  '# Production Deployment Checklist',
+  'Copy this checklist into the release ticket',
+  'database, files, and uploads backups',
+  'previous known-good plugin package',
+  'Verify package contents and version',
+  'Deploy to staging before production',
+  'Activate or update the plugin',
+  'wp role exists partner_manager',
+  'wp cap list partner_manager',
+  'Create, edit, and publish a test Partner Organization',
+  '[partner_directory]',
+  'Partner Directory Gutenberg block',
+  '/wp-json/partner-organizations/v1/partners?page=1&per_page=10',
+  '/wp-json/partner-organizations/v1/partners?category=education&page=1&per_page=10',
+  'flush rewrite rules',
+  'delete plugin transients',
+  'Purge host, object, page, and CDN caches',
+  'Check PHP, WordPress, host, and CDN/WAF error logs',
+  'Redeploy the previous known-good plugin package',
+  'Document what changed, what failed, customer impact, rollback actions, and follow-up owners',
+]) {
+  expectIncludes(deploymentChecklist, detail, `Deployment checklist must document: ${detail}`);
+}
 
 console.log('README documentation checks passed.');
