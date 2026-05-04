@@ -1,0 +1,19 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  dockerized-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run Dockerized plugin tests
+        run: docker compose --profile test run --rm plugin-tests
+
+      - name: Clean up Docker resources
+        if: always()
+        run: docker compose --profile test down -v --remove-orphans

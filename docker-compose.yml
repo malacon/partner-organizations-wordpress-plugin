@@ -34,6 +34,43 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  test-db:
+    image: mariadb:11.4
+    profiles: ["test"]
+    environment:
+      MARIADB_DATABASE: wordpress_test
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - test_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -uroot -p$${MARIADB_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  plugin-tests:
+    build:
+      context: .
+      dockerfile: docker/test-runner/Dockerfile
+    profiles: ["test"]
+    environment:
+      WORDPRESS_TEST_DB_HOST: test-db:3306
+      WORDPRESS_TEST_DB_NAME: wordpress_test
+      WORDPRESS_TEST_DB_USER: wordpress
+      WORDPRESS_TEST_DB_PASSWORD: wordpress
+      WP_VERSION: "6.6"
+    volumes:
+      - ./partner-organizations:/workspace/partner-organizations:ro
+      - ./tests:/workspace/tests:ro
+      - ./phpunit.xml.dist:/workspace/phpunit.xml.dist:ro
+    depends_on:
+      test-db:
+        condition: service_healthy
+
 volumes:
   wordpress_data:
   db_data:
+  test_db_data:
