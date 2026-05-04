@@ -294,3 +294,48 @@ Planner selected 0 issue(s) for iteration 2:
 
 Sandcastle orchestration finished.
 
+## 2026-05-04T12:24:47.719Z
+
+Sandcastle iteration 1 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T12:30:11.224Z
+
+Planner selected 0 issue(s) for iteration 1:
+- None
+
+## 2026-05-04T12:30:11.225Z
+
+Sandcastle orchestration finished.
+
+## 2026-05-04T13:41:14.667Z
+
+Sandcastle iteration 1 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T13:46:40.585Z
+
+Planner selected 2 issue(s) for iteration 1:
+- #9: Add Partner Manager capability model (sandcastle/issue-9-add-partner-manager-capability-model)
+- #11: Add production deployment guide (sandcastle/issue-11-add-production-deployment-guide)
+
+## 2026-05-04T13:55:38.521Z
+
+Implementer finished for #9 (sandcastle/issue-9-add-partner-manager-capability-model). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T13:55:38.522Z
+
+Implementer finished for #11 (sandcastle/issue-11-add-production-deployment-guide). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T13:55:38.522Z
+
+Merger starting for iteration 1. Model: openai-codex/gpt-5.5. Branches:
+- sandcastle/issue-9-add-partner-manager-capability-model
+- sandcastle/issue-11-add-production-deployment-guide
+
+## 2026-05-04T14:00:00.000Z
+
+Merger completed for iteration 1.
+- Branches merged: sandcastle/issue-9-add-partner-manager-capability-model; sandcastle/issue-11-add-production-deployment-guide.
+- Model/tool used: Sandcastle with Pi using GPT-5.5.
+- Verification run: preferred `docker compose --profile test run --rm plugin-tests` attempted after each merge but Docker was unavailable (`docker: command not found`); ran `npm test` after each merge and it passed.
+- Conflicts/corrections: no merge conflicts; no code corrections required.
+
