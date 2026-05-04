@@ -30,11 +30,27 @@ final class Cache implements Hookable
 
     public function flush(): void
     {
-        delete_transient($this->key('rest_partners'));
+        set_transient($this->version_key(), (string) microtime(true), DAY_IN_SECONDS);
     }
 
     private function key(string $key): string
     {
-        return self::GROUP . '_' . sanitize_key($key);
+        return self::GROUP . '_' . sanitize_key($this->version() . '_' . $key);
+    }
+
+    private function version(): string
+    {
+        $version = get_transient($this->version_key());
+        if (false === $version) {
+            $version = '1';
+            set_transient($this->version_key(), $version, DAY_IN_SECONDS);
+        }
+
+        return (string) $version;
+    }
+
+    private function version_key(): string
+    {
+        return self::GROUP . '_cache_version';
     }
 }
