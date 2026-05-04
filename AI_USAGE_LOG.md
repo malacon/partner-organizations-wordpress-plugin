@@ -177,3 +177,32 @@ Merger starting for iteration 3. Model: openai-codex/gpt-5.5. Branches:
 - Model/tool used: Sandcastle with Pi using GPT-5.5.
 - Verification run: attempted `docker compose --profile test run --rm plugin-tests` after each successful merge, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully after each merge.
 - Conflicts or corrections made: issue #3 fast-forwarded cleanly; issue #4 had a `package.json` test-script conflict resolved by preserving both shortcode-directory and REST API checks. Retained `docs/ai-usage/sandcastle-issue-3.md` and `docs/ai-usage/sandcastle-issue-4.md`.
+## 2026-05-04T04:00:17.121Z
+
+Merger completed for iteration 3.
+
+## 2026-05-04T04:00:17.122Z
+
+Sandcastle iteration 4 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:05:38.333Z
+
+Planner selected 1 issue(s) for iteration 4:
+- #5: Add API caching and rate limiting (sandcastle/issue-5-add-api-caching-and-rate-limiting)
+
+## 2026-05-04T04:13:37.105Z
+
+Implementer finished for #5 (sandcastle/issue-5-add-api-caching-and-rate-limiting). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:13:37.106Z
+
+Merger starting for iteration 4. Model: openai-codex/gpt-5.5. Branches:
+- sandcastle/issue-5-add-api-caching-and-rate-limiting
+
+
+## 2026-05-04T04:20:00Z — Merger entry
+
+- Branches merged: `sandcastle/issue-5-add-api-caching-and-rate-limiting`.
+- Model/tool used: Sandcastle with Pi using GPT-5.5.
+- Verification run: attempted `docker compose --profile test run --rm plugin-tests`, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully.
+- Conflicts or corrections made: fast-forwarded cleanly; no conflicts or code corrections required. Retained `docs/ai-usage/sandcastle-issue-5.md`.
