@@ -21,24 +21,37 @@ final class Shortcode implements Hookable
     public function render(array|string $attributes = []): string
     {
         $attributes = shortcode_atts([
+            'category' => '',
             'per_page' => 20,
         ], (array) $attributes, 'partner_directory');
 
-        $query = new \WP_Query($this->query_behavior->public_query_args([
+        $query_args = $this->query_behavior->public_query_args([
             'posts_per_page' => max(1, min(100, absint($attributes['per_page']))),
-        ]));
+            'no_found_rows' => true,
+        ]);
 
-        if (! $query->have_posts()) {
-            return '<p>' . esc_html__('No Partner Organizations found.', 'partner-organizations') . '</p>';
+        $category = sanitize_title((string) $attributes['category']);
+        if ('' !== $category) {
+            $query_args['tax_query'] = [
+                [
+                    'taxonomy' => Taxonomy::SLUG,
+                    'field' => 'slug',
+                    'terms' => $category,
+                ],
+            ];
         }
+
+        $partner_query = new \WP_Query($query_args);
+
+        wp_enqueue_style(
+            'partner-organizations-directory',
+            PARTNER_ORGANIZATIONS_URL . 'assets/css/partner-directory.css',
+            [],
+            PARTNER_ORGANIZATIONS_VERSION
+        );
 
         ob_start();
-        echo '<ul class="partner-directory">';
-        while ($query->have_posts()) {
-            $query->the_post();
-            printf('<li class="partner-directory__item"><a href="%1$s">%2$s</a></li>', esc_url(get_permalink()), esc_html(get_the_title()));
-        }
-        echo '</ul>';
+        require PARTNER_ORGANIZATIONS_DIR . 'templates/partner-directory.php';
         wp_reset_postdata();
 
         return (string) ob_get_clean();
