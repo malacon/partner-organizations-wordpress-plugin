@@ -206,3 +206,32 @@ Merger starting for iteration 4. Model: openai-codex/gpt-5.5. Branches:
 - Model/tool used: Sandcastle with Pi using GPT-5.5.
 - Verification run: attempted `docker compose --profile test run --rm plugin-tests`, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully.
 - Conflicts or corrections made: fast-forwarded cleanly; no conflicts or code corrections required. Retained `docs/ai-usage/sandcastle-issue-5.md`.
+## 2026-05-04T04:19:23.838Z
+
+Merger completed for iteration 4.
+
+## 2026-05-04T04:19:23.839Z
+
+Sandcastle iteration 5 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:24:47.530Z
+
+Planner selected 1 issue(s) for iteration 5:
+- #7: Complete README, deployment notes, and AI Usage Notes (sandcastle/issue-7-complete-readme-deployment-notes-and-ai-usage-notes)
+
+## 2026-05-04T04:32:17.764Z
+
+Implementer finished for #7 (sandcastle/issue-7-complete-readme-deployment-notes-and-ai-usage-notes). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:32:17.764Z
+
+Merger starting for iteration 5. Model: openai-codex/gpt-5.5. Branches:
+- sandcastle/issue-7-complete-readme-deployment-notes-and-ai-usage-notes
+
+
+## 2026-05-04T04:32:39Z — Merger entry
+
+- Branches merged: `sandcastle/issue-7-complete-readme-deployment-notes-and-ai-usage-notes`.
+- Model/tool used: Sandcastle with Pi using GPT-5.5.
+- Verification run: attempted `docker compose --profile test run --rm plugin-tests`, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully.
+- Conflicts or corrections made: fast-forwarded cleanly; no conflicts or code corrections required. Retained `docs/ai-usage/sandcastle-issue-7.md`.
