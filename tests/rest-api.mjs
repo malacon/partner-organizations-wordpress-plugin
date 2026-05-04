@@ -20,6 +20,10 @@ for (const field of ["'id'", "'name'", "'website_url'", "'logo'", "'category'"])
 }
 expect(rest.includes("'post_status' => 'publish'") || readFileSync(join(srcDir, 'QueryBehavior.php'), 'utf8').includes("'post_status' => 'publish'"), 'REST query must use published Partner Organizations only.');
 expect(rest.includes("get_term_by('slug', $category, Taxonomy::SLUG)"), 'Category filtering must look up Partner Category by slug.');
+expect(!rest.includes("'sanitize_callback' => 'sanitize_title'"), 'REST category must not use sanitize_title directly because WordPress passes the request as the second callback argument.');
+expect(rest.includes("'sanitize_callback' => [$this, 'sanitize_category_param']"), 'REST category must use a callback that tolerates missing/non-scalar values.');
+expect(rest.includes('function sanitize_category_param'), 'REST category sanitizer must be defined.');
+expect(rest.includes('! is_scalar($value)'), 'REST category sanitizer must handle missing/non-scalar values safely.');
 expect(rest.includes("'paged' => $page"), 'Endpoint must pass page to WP_Query.');
 expect(rest.includes("'posts_per_page' => $per_page"), 'Endpoint must pass per_page to WP_Query.');
 expect(rest.includes('min(100,'), 'Endpoint must cap per_page at 100.');

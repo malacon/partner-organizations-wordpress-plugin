@@ -31,7 +31,7 @@ final class Rest implements Hookable
             'permission_callback' => '__return_true',
             'args' => [
                 'category' => [
-                    'sanitize_callback' => 'sanitize_title',
+                    'sanitize_callback' => [$this, 'sanitize_category_param'],
                     'default' => '',
                 ],
                 'page' => [
@@ -57,6 +57,15 @@ final class Rest implements Hookable
         }
 
         return (int) $value > 0;
+    }
+
+    public function sanitize_category_param(mixed $value): string
+    {
+        if (! is_scalar($value)) {
+            return '';
+        }
+
+        return sanitize_title((string) $value);
     }
 
     public function partners(\WP_REST_Request $request): \WP_REST_Response|\WP_Error

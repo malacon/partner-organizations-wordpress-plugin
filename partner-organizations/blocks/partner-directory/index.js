@@ -1,6 +1,7 @@
 (function (blocks, blockEditor, components, element, i18n, serverSideRender) {
     const el = element.createElement;
     const InspectorControls = blockEditor.InspectorControls;
+    const useBlockProps = blockEditor.useBlockProps;
     const PanelBody = components.PanelBody;
     const TextControl = components.TextControl;
     const ServerSideRender = serverSideRender;
@@ -23,6 +24,9 @@
         },
         edit: function (props) {
             const categorySlug = props.attributes.categorySlug || '';
+            const blockProps = useBlockProps({
+                className: 'po-partner-directory-block-editor',
+            });
 
             return el(
                 element.Fragment,
@@ -46,10 +50,14 @@
                         })
                     )
                 ),
-                el(ServerSideRender, {
-                    block: 'partner-organizations/partner-directory',
-                    attributes: props.attributes,
-                })
+                el(
+                    'div',
+                    blockProps,
+                    el(ServerSideRender, {
+                        block: 'partner-organizations/partner-directory',
+                        attributes: props.attributes,
+                    })
+                )
             );
         },
         save: function () {

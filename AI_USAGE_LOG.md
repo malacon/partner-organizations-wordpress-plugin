@@ -235,3 +235,53 @@ Merger starting for iteration 5. Model: openai-codex/gpt-5.5. Branches:
 - Model/tool used: Sandcastle with Pi using GPT-5.5.
 - Verification run: attempted `docker compose --profile test run --rm plugin-tests`, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully.
 - Conflicts or corrections made: fast-forwarded cleanly; no conflicts or code corrections required. Retained `docs/ai-usage/sandcastle-issue-7.md`.
+## 2026-05-04T04:38:11.674Z
+
+Merger completed for iteration 5.
+
+## 2026-05-04T04:38:11.674Z
+
+Sandcastle iteration 6 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:43:37.153Z
+
+Planner selected 0 issue(s) for iteration 6:
+- None
+
+## 2026-05-04T04:43:37.153Z
+
+Sandcastle orchestration finished.
+
+## 2026-05-04T04:45:17.973Z
+
+Sandcastle iteration 1 started. Planner model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:50:37.107Z
+
+Planner selected 1 issue(s) for iteration 1:
+- #8: Add Gutenberg block for Partner Directory insertion (sandcastle/issue-8-add-gutenberg-block-for-partner-directory-insertion)
+
+## 2026-05-04T04:59:33.070Z
+
+Implementer finished for #8 (sandcastle/issue-8-add-gutenberg-block-for-partner-directory-insertion). Commits produced: 1. Model: openai-codex/gpt-5.5.
+
+## 2026-05-04T04:59:33.071Z
+
+Merger starting for iteration 1. Model: openai-codex/gpt-5.5. Branches:
+- sandcastle/issue-8-add-gutenberg-block-for-partner-directory-insertion
+
+
+## 2026-05-04T05:00:17Z — Merger entry
+
+- Branches merged: `sandcastle/issue-8-add-gutenberg-block-for-partner-directory-insertion`.
+- Model/tool used: Sandcastle with Pi using GPT-5.5.
+- Verification run: attempted `docker compose --profile test run --rm plugin-tests`, but Docker is unavailable in this environment (`docker: command not found`); ran `npm test` successfully.
+- Conflicts or corrections made: fast-forwarded cleanly; no merge conflicts. Preserved local REST sanitizer corrections and retained `docs/ai-usage/sandcastle-issue-8.md`.
+## 2026-05-04T05:05:42.035Z
+
+Merger completed for iteration 1.
+
+## 2026-05-04T05:05:42.036Z
+
+Sandcastle iteration 2 started. Planner model: openai-codex/gpt-5.5.
+

@@ -28,6 +28,8 @@ expect(blockJson.editorScript === 'file:./index.js', 'Block editor script must b
 expect(!Object.hasOwn(blockJson, 'script'), 'Block must not define frontend JavaScript.');
 expect(existsSync(editorScriptPath), 'Block editor script must exist.');
 expect(editorScript.includes('InspectorControls'), 'Block must expose category filtering in the block sidebar.');
+expect(editorScript.includes('useBlockProps'), 'Block edit output must use useBlockProps so Gutenberg can select and remove the block in the visual editor.');
+expect(editorScript.includes('blockProps'), 'Block edit output must apply block props to a real wrapper element, not a fragment-only root.');
 expect(editorScript.includes('categorySlug'), 'Block editor script must edit the categorySlug attribute.');
 expect(editorScript.includes('Partner Category slug'), 'Block control label must use Partner Category language.');
 
