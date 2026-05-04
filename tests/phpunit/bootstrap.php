@@ -12,6 +12,11 @@ if (! file_exists($_tests_dir . '/includes/functions.php')) {
     exit(1);
 }
 
+$polyfills_path = getenv('WP_TESTS_PHPUNIT_POLYFILLS_PATH');
+if (is_string($polyfills_path) && '' !== $polyfills_path && ! defined('WP_TESTS_PHPUNIT_POLYFILLS_PATH')) {
+    define('WP_TESTS_PHPUNIT_POLYFILLS_PATH', $polyfills_path);
+}
+
 require_once $_tests_dir . '/includes/functions.php';
 
 tests_add_filter('muplugins_loaded', static function (): void {

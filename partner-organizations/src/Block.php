@@ -22,6 +22,10 @@ final class Block implements Hookable
 
     public function register_block(): void
     {
+        if (\WP_Block_Type_Registry::get_instance()->is_registered(self::NAME)) {
+            return;
+        }
+
         register_block_type(
             PARTNER_ORGANIZATIONS_DIR . 'blocks/partner-directory',
             [

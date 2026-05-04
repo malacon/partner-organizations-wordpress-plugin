@@ -15,6 +15,7 @@ function expect(condition, message) {
 
 expect(plugin.includes('new Block('), 'Plugin must compose the Partner Directory block service.');
 expect(block.includes('register_block_type('), 'Partner Directory block must be registered with WordPress.');
+expect(block.includes('is_registered(self::NAME)'), 'Partner Directory block registration must be idempotent for repeated test init hooks.');
 expect(block.includes("'render_callback' => [$this, 'render']"), 'Partner Directory block must use a dynamic render callback.');
 expect(block.includes('$this->shortcode->render('), 'Partner Directory block rendering must reuse shortcode rendering behavior.');
 expect(block.includes('sanitize_title('), 'Partner Directory block category slug must be sanitized.');
