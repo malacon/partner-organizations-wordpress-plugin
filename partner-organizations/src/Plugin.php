@@ -21,13 +21,15 @@ final class Plugin
         $cache = new Cache();
         $rate_limiter = new RateLimiter();
         $query_behavior = new QueryBehavior();
+        $shortcode = new Shortcode($query_behavior);
 
         $this->services = [
             new PostType(),
             new Taxonomy(),
             new MetaBoxes($cache),
             new AdminColumns(),
-            new Shortcode($query_behavior),
+            $shortcode,
+            new Block($shortcode),
             new Rest($cache, $rate_limiter, $query_behavior),
             $cache,
             $rate_limiter,

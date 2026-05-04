@@ -1,6 +1,6 @@
 # Partner Organizations WordPress Plugin
 
-A WordPress plugin for managing a public Partner Directory. Administrators create **Partner Organizations**, assign zero-or-one **Partner Category**, add an optional website URL and featured-image logo, then publish the directory through a shortcode or read-only REST API.
+A WordPress plugin for managing a public Partner Directory. Administrators create **Partner Organizations**, assign zero-or-one **Partner Category**, add an optional website URL and featured-image logo, then publish the directory through a Gutenberg block, shortcode, or read-only REST API.
 
 ## Clean-clone local setup
 
@@ -42,9 +42,17 @@ docker compose down -v       # stop and remove WordPress/database volumes for a 
 3. Go to **Partner Organizations** and add several Partner Organizations.
 4. Add a title, optional **Website URL**, optional featured image logo, and one Partner Category. The plugin creates default Partner Categories on activation: Education, Nonprofit, and Corporate.
 5. Publish the Partner Organizations. Drafts are intentionally hidden from the public Partner Directory and REST API.
-6. Create or edit a page and add the shortcode examples below.
+6. Create or edit a page and insert the **Partner Directory** block, or add one of the shortcode examples below.
 7. View the page and verify cards render alphabetically, omit missing optional fields, and category filters only show matching published Partner Organizations.
 8. Verify the REST API with a browser or curl, for example `http://localhost:12315/wp-json/partner-organizations/v1/partners?page=1&per_page=10`.
+
+## Gutenberg block usage
+
+In the block editor for a post or page, click **Add block**, search for **Partner Directory**, and insert the block. The block renders the same frontend Partner Directory cards as the shortcode and does not require frontend JavaScript.
+
+To filter the block, open the block settings sidebar and enter an optional **Partner Category slug**, such as `education`. Leave the setting blank to display all published Partner Organizations.
+
+Use the shortcode instead when editing legacy content, classic-editor fields, widgets, or templates that do not support Gutenberg blocks.
 
 ## Shortcode usage
 
@@ -138,6 +146,7 @@ npm test
 - `Taxonomy` registers the `partner_category` Partner Category taxonomy and enforces the zero-or-one Partner Category rule after save.
 - `MetaBoxes` handles Website URL storage with nonce verification, capability checks, and http/https-only sanitization.
 - `Shortcode` renders the Partner Directory using shared public query behavior.
+- `Block` registers the dynamic Gutenberg Partner Directory block and reuses shortcode rendering so block and shortcode output stay consistent.
 - `Rest` exposes the public read-only API with pagination, category filtering, stable envelopes, and validation.
 - `Cache` centralizes transient response caching and invalidation hooks for Partner Organization and Partner Category changes.
 - `RateLimiter` centralizes per-client transient rate limiting for the public REST API.
@@ -147,13 +156,14 @@ Key tradeoffs:
 
 - A Custom Post Type and taxonomy keep the plugin idiomatic for WordPress editors and avoid custom-table maintenance.
 - Featured Images are used for logos to reuse WordPress media workflows.
-- The shortcode is simpler than a block and appropriate for broad theme compatibility, but offers less editor preview polish.
+- The dynamic Gutenberg block gives editors a discoverable insertion flow while reusing shortcode rendering to avoid divergent frontend behavior.
+- The shortcode remains appropriate for legacy content, classic-editor fields, widgets, and templates without block support.
 - Application-level transient caching/rate limiting is portable, but production sites should still prefer edge/CDN/WAF controls for stronger abuse protection.
 - The REST namespace is `partner-organizations/v1` rather than a generic example namespace to avoid collisions and clarify ownership.
 
 Future improvements:
 
-- Add block editor support with preview controls.
+- Add richer block editor previews or category pickers backed by REST data.
 - Add import/export tooling for large Partner Directory migrations.
 - Add richer admin validation for category cardinality before save.
 - Add configurable cache TTL and admin-facing rate-limit settings.

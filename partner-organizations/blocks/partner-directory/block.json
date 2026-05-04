@@ -1,0 +1,21 @@
+{
+  "apiVersion": 3,
+  "name": "partner-organizations/partner-directory",
+  "version": "0.1.0",
+  "title": "Partner Directory",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "Insert a Partner Directory that displays published Partner Organizations, optionally filtered by Partner Category slug.",
+  "keywords": ["Partner Directory", "Partner Organizations", "Partner Category"],
+  "textdomain": "partner-organizations",
+  "attributes": {
+    "categorySlug": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js"
+}
