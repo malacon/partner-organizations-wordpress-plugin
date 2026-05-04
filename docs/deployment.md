@@ -55,7 +55,7 @@ Plan database/content changes separately:
 
 - **Partner Organizations, Partner Categories**: these are WordPress posts and taxonomy terms. Create or edit them directly in production, or migrate them with a reviewed import/export process.
 - **Directory placement**: pages containing the `[partner_directory]` shortcode or Partner Directory Gutenberg block are content and should be managed as production content unless your release process explicitly migrates pages.
-- **Role/capability state**: activation registers defaults and flushes rewrite rules, but user roles and custom capability changes may differ by environment. Verify administrator access to the Partner Organizations admin after deployment.
+- **Role/capability state**: activation creates the `partner_manager` role, grants Partner Organization and Partner Category capabilities to that role, and grants those same plugin capabilities to administrators. User role assignments and custom capability changes may differ by environment; verify administrator and Partner Manager access to the Partner Organizations admin after deployment.
 - **Settings/permalinks**: permalink state is stored in the database. Flush production rewrite rules after activation/update rather than copying staging options blindly.
 
 ## Media/uploads and partner logos
@@ -96,6 +96,61 @@ After deploying code to production:
 
 5. Purge host/page/object caches and the CDN edge cache for affected pages and REST routes.
 6. Verify HTTPS, trusted proxy/IP handling, CDN/WAF rate limiting, backups, and logs/monitoring are active.
+
+## Post-deploy role and capability verification
+
+The Partner Manager model is intended to avoid broad administrator grants. Do not grant full administrator access when a user only needs to maintain the Partner Directory.
+
+Verify the default role and capabilities after activation or update:
+
+```bash
+wp role exists partner_manager
+wp cap list partner_manager
+wp cap list administrator | grep partner
+wp user list --role=partner_manager
+```
+
+Assign or remove the role for individual users as needed:
+
+```bash
+wp user add-role 123 partner_manager
+wp user remove-role 123 partner_manager
+```
+
+For a custom role, grant only the Partner Organization and Partner Category capabilities that role needs. For example, a constrained editor workflow might use:
+
+```bash
+wp cap add editor edit_partners publish_partners create_partners assign_partner_categories
+wp cap remove editor edit_partners publish_partners create_partners assign_partner_categories
+```
+
+Equivalent reviewed PHP for a custom role:
+
+```php
+$role = get_role('editor');
+$capabilities = ['edit_partners', 'publish_partners', 'create_partners', 'assign_partner_categories'];
+
+if ($role) {
+    foreach ($capabilities as $capability) {
+        $role->add_cap($capability);
+    }
+}
+
+// To revoke custom access later:
+if ($role) {
+    foreach ($capabilities as $capability) {
+        $role->remove_cap($capability);
+    }
+}
+```
+
+The practical capability groups are:
+
+- Basic admin/media access: `read`, `upload_files`.
+- Partner Organization management: `create_partners`, `edit_partners`, `edit_others_partners`, `edit_published_partners`, `edit_private_partners`, `publish_partners`, `delete_partners`, `delete_others_partners`, `delete_published_partners`, `delete_private_partners`, `read_private_partners`, and WordPress mapped meta capabilities `edit_partner`, `read_partner`, and `delete_partner`.
+- Partner Category management: `manage_partner_categories`, `edit_partner_categories`, `delete_partner_categories`, and `assign_partner_categories`.
+
+Plugin deactivation is intentionally non-destructive and does not remove existing roles/caps. Reactivate the plugin to restore the default grants for `partner_manager` and administrators if a migration, role-management plugin, or manual change removed them.
 
 ## Post-deployment smoke tests
 

@@ -46,6 +46,45 @@ docker compose down -v       # stop and remove WordPress/database volumes for a 
 7. View the page and verify cards render alphabetically, omit missing optional fields, and category filters only show matching published Partner Organizations.
 8. Verify the REST API with a browser or curl, for example `http://localhost:12315/wp-json/partner-organizations/v1/partners?page=1&per_page=10`.
 
+## Partner Manager permissions
+
+On activation, the plugin creates the `partner_manager` WordPress role. It is a least-privilege role for users who should manage Partner Organizations, Partner Categories, logos, and publication status without broad site administration rights. Use this role instead of making a user an administrator when Partner Directory maintenance is their only responsibility; avoid granting full administrator access when the narrower role is sufficient.
+
+Activation grants the role basic `read` and `upload_files` access plus Partner Organization post capabilities (`create_partners`, `edit_partners`, `edit_others_partners`, `edit_published_partners`, `edit_private_partners`, `publish_partners`, `delete_partners`, `delete_others_partners`, `delete_published_partners`, `delete_private_partners`, `read_private_partners`, and mapped meta capabilities such as `edit_partner`, `read_partner`, and `delete_partner`) and Partner Category taxonomy capabilities (`manage_partner_categories`, `edit_partner_categories`, `delete_partner_categories`, and `assign_partner_categories`). Site owners should know that administrators receive the same Partner Organization and Partner Category capabilities on activation so existing admin workflows continue to work.
+
+Common WP-CLI examples:
+
+```bash
+wp user add-role 123 partner_manager
+wp user remove-role 123 partner_manager
+wp user list --role=partner_manager
+wp cap list partner_manager
+wp cap list administrator | grep partner
+wp cap add editor edit_partners publish_partners create_partners assign_partner_categories
+wp cap remove editor edit_partners publish_partners create_partners assign_partner_categories
+```
+
+For custom roles, prefer granting only the specific Partner Organization and Partner Category capabilities needed by that role. Example PHP for an activation hook or reviewed maintenance script:
+
+```php
+$role = get_role('editor');
+
+if ($role) {
+    foreach (['edit_partners', 'publish_partners', 'create_partners', 'assign_partner_categories'] as $capability) {
+        $role->add_cap($capability);
+    }
+}
+
+// Later, to revoke those custom grants:
+if ($role) {
+    foreach (['edit_partners', 'publish_partners', 'create_partners', 'assign_partner_categories'] as $capability) {
+        $role->remove_cap($capability);
+    }
+}
+```
+
+Deactivation is non-destructive: it does not remove the `partner_manager` role or existing capability grants. Reactivating the plugin restores the default role/capability grants if they were removed or are missing.
+
 ## Gutenberg block usage
 
 In the block editor for a post or page, click **Add block**, search for **Partner Directory**, and insert the block. The block renders the same frontend Partner Directory cards as the shortcode and does not require frontend JavaScript.

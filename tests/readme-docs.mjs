@@ -45,6 +45,13 @@ for (const detail of [
   'Sandcastle with Pi using GPT-5.5',
   'docs/ai-usage/',
   'has been run locally and passes',
+  'partner_manager',
+  'least-privilege role',
+  'administrators receive the same Partner Organization and Partner Category capabilities',
+  'WP-CLI',
+  'wp user add-role 123 partner_manager',
+  'wp cap add editor edit_partners publish_partners',
+  'avoid granting full administrator access',
 ]) {
   expectIncludes(readme, detail, `README must document: ${detail}`);
 }
@@ -66,6 +73,13 @@ for (const detail of [
   '/wp-json/partner-organizations/v1/partners',
   'CDN/WAF',
   'backups',
+  'Post-deploy role and capability verification',
+  'wp role exists partner_manager',
+  'wp cap list partner_manager',
+  'wp user add-role 123 partner_manager',
+  'wp cap remove editor edit_partners publish_partners',
+  'Do not grant full administrator access',
+  'Reactivate the plugin to restore the default grants',
 ]) {
   expectIncludes(deploymentGuide, detail, `Deployment guide must document: ${detail}`);
 }
