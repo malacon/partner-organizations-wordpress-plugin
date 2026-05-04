@@ -28,6 +28,12 @@ final class Taxonomy implements Hookable
             'public' => false,
             'show_ui' => true,
             'show_admin_column' => true,
+            'capabilities' => [
+                'manage_terms' => 'manage_partner_categories',
+                'edit_terms' => 'edit_partner_categories',
+                'delete_terms' => 'delete_partner_categories',
+                'assign_terms' => 'assign_partner_categories',
+            ],
             'show_in_rest' => true,
         ]);
     }

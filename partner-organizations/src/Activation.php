@@ -13,6 +13,7 @@ final class Activation
     {
         (new PostType())->register_post_type();
         (new Taxonomy())->register_taxonomy();
+        Capabilities::grant();
         self::create_default_partner_categories();
         flush_rewrite_rules();
     }

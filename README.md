@@ -38,8 +38,8 @@ docker compose down -v       # stop and remove WordPress/database volumes for a 
 ## Plugin activation and manual demo
 
 1. Complete the normal WordPress install screen at `http://localhost:12315`.
-2. In the WordPress admin, go to **Plugins** and activate **Partner Organizations**.
-3. Go to **Partner Organizations** and add several Partner Organizations.
+2. In the WordPress admin, go to **Plugins** and activate **Partner Organizations**. Activation creates the `partner_manager` role, grants Partner Organization and Partner Category capabilities to that role, and grants the same capabilities to administrators.
+3. Go to **Partner Organizations** and add several Partner Organizations as an administrator or Partner Manager.
 4. Add a title, optional **Website URL**, optional featured image logo, and one Partner Category. The plugin creates default Partner Categories on activation: Education, Nonprofit, and Corporate.
 5. Publish the Partner Organizations. Drafts are intentionally hidden from the public Partner Directory and REST API.
 6. Create or edit a page and insert the **Partner Directory** block, or add one of the shortcode examples below.
@@ -142,8 +142,9 @@ npm test
 
 - Plugin code lives under `partner-organizations/`, with responsibility-focused classes in the `PartnerOrganizations\\` namespace.
 - `Plugin` composes services and registers WordPress hooks once.
-- `PostType` registers the private admin-visible `partner` Custom Post Type for Partner Organizations.
-- `Taxonomy` registers the `partner_category` Partner Category taxonomy and enforces the zero-or-one Partner Category rule after save.
+- `PostType` registers the private admin-visible `partner` Custom Post Type for Partner Organizations using partner-specific mapped capabilities.
+- `Taxonomy` registers the `partner_category` Partner Category taxonomy with partner-category-specific capabilities and enforces the zero-or-one Partner Category rule after save.
+- `Capabilities` defines the Partner Organization and Partner Category capabilities, creates the `partner_manager` role on activation, and grants those capabilities to administrators.
 - `MetaBoxes` handles Website URL storage with nonce verification, capability checks, and http/https-only sanitization.
 - `Shortcode` renders the Partner Directory using shared public query behavior.
 - `Block` registers the dynamic Gutenberg Partner Directory block and reuses shortcode rendering so block and shortcode output stay consistent.

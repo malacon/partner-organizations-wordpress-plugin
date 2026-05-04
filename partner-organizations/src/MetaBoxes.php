@@ -32,7 +32,7 @@ final class MetaBoxes implements Hookable
             'single' => true,
             'show_in_rest' => true,
             'sanitize_callback' => [$this, 'sanitize_website_url'],
-            'auth_callback' => static fn (): bool => current_user_can('edit_posts'),
+            'auth_callback' => static fn (mixed $allowed, string $meta_key, int $post_id): bool => current_user_can('edit_post', $post_id),
         ]);
     }
 

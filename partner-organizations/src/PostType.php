@@ -33,6 +33,11 @@ final class PostType implements Hookable
             'has_archive' => false,
             'menu_icon' => 'dashicons-groups',
             'supports' => ['title', 'thumbnail'],
+            'capability_type' => ['partner', 'partners'],
+            'map_meta_cap' => true,
+            'capabilities' => [
+                'create_posts' => 'create_partners',
+            ],
             'show_in_rest' => true,
         ]);
     }
