@@ -1,0 +1,32 @@
+{
+  "lastChangelogVersion": "0.70.6",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "enabledModels": [
+    "glm-5-turbo",
+    "glm-5V-turbo",
+    "glm-5.1",
+    "claude-haiku-4-5",
+    "claude-opus-4-6",
+    "claude-sonnet-4-6",
+    "gemini-3.1-pro-preview",
+    "grok-code-fast-1",
+    "openai-codex/gpt-5.3-codex",
+    "openai-codex/gpt-5.3-codex-spark",
+    "openai-codex/gpt-5.1",
+    "openai-codex/gpt-5.1-codex-max",
+    "openai-codex/gpt-5.2",
+    "openai-codex/gpt-5.2-codex",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.4-mini",
+    "openai-codex/gpt-5.5"
+  ],
+  "defaultThinkingLevel": "medium",
+  "skills": [
+    "~/.pi/agent/skills",
+    "~/.claude/skills",
+    "~/.codex/skills"
+  ],
+  "hideThinkingBlock": false,
+  "packages": []
+}

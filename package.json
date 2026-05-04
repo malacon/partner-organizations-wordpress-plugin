@@ -1,0 +1,30 @@
+{
+  "name": "children",
+  "version": "1.0.0",
+  "description": "This project uses a small Docker Compose setup: nginx Alpine, WordPress PHP-FPM Alpine, and MariaDB.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "sandcastle": "npx tsx .sandcastle/main.mts",
+    "ralph": "npx tsx .sandcastle/main.mts",
+    "sandcastle:build-image": "sandcastle docker build-image --image-name sandcastle:partner-organizations",
+    "sandcastle:remove-image": "sandcastle docker remove-image --image-name sandcastle:partner-organizations",
+    "test": "echo \"Dockerized plugin tests are added in issue #6\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malacon/partner-organizations-wordpress-plugin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/malacon/partner-organizations-wordpress-plugin/issues"
+  },
+  "homepage": "https://github.com/malacon/partner-organizations-wordpress-plugin#readme",
+  "devDependencies": {
+    "@ai-hero/sandcastle": "^0.5.7"
+  }
+}
